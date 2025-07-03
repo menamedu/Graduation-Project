@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Flag</title>
+    <style>
+        body {
+            font-family: "Work Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-style: normal;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            direction: ltr;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        h1 { 
+            text-align: center;
+            color: rgb(4, 78, 125);
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: rgb(4, 78, 125);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        button:hover {
+            opacity: 0.9;  
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .message {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #333;
+        }
+        .error {
+            color: #dc3545;
+        }
+        .success {
+            color: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Submit Flag</h1>
+        <form onsubmit="event.preventDefault(); submitFlag();">
+            <input type="text" id="flagInput" placeholder="Enter flag here (e.g., FLAG{example123})" required>
+            <button type="submit">Submit</button>
+        </form>
+        <div id="message" class="message"></div>
+    </div>
+
+    <script>
+        async function submitFlag() {
+            const flagInput = document.getElementById('flagInput').value;
+            const messageDiv = document.getElementById('message');
+            const button = document.querySelector('button');
+
+            // يتحقق من الادخال
+            if (!flagInput) { //لو مافيش ادخال
+                messageDiv.textContent = 'Please enter a flag!'; 
+                messageDiv.classList.add('error');
+                messageDiv.classList.remove('success');
+                return; //يوقف تنفيذ الدالة إذا كان الإدخال فارغًا
+            }
+
+            // Validate flag format (optional, can be modified or removed based on backend requirements)
+            if (!flagInput.match(/^FLAG\{.*\}$/)) {
+                messageDiv.textContent = 'Flag must be in the format FLAG{...}!';
+                messageDiv.classList.add('error');
+                messageDiv.classList.remove('success');
+                return;
+            }
+
+            // Disable button to prevent multiple submissions
+            button.disabled = true;
+            button.textContent = 'Submitting...';
+
+            try {
+                // Send POST request to the backend API
+                // TODO: Backend team should replace 'https://api.example.com/submit-flag' with the actual API endpoint
+                const response = await fetch('/api/SubmitLab', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // TODO: Backend team should add authentication header if required (e.g., 'Authorization': 'Bearer YOUR_API_TOKEN')
+                    },
+                    body: JSON.stringify( flagInput )
+                });
+
+                // Check if the response is successful
+                if (!response.ok) {
+                    throw new Error('Failed to submit flag. Please try again.');
+                }
+
+                // Parse the JSON response
+                const result = await response.json();
+
+                // Display the message from the backend or a default success message
+                messageDiv.textContent = result.message || 'Flag submitted successfully!';
+                messageDiv.classList.add('success');
+                messageDiv.classList.remove('error');
+
+                // Clear the input field
+                document.getElementById('flagInput').value = '';
+            } catch (error) {
+                // Handle network errors or invalid responses
+                messageDiv.textContent = error.message || 'An error occurred while submitting the flag.';
+                messageDiv.classList.add('error');
+                messageDiv.classList.remove('success');
+            } finally {
+                // Re-enable the button
+                button.disabled = false;
+                button.textContent = 'Submit';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- css style -->
+     <link rel="stylesheet" href="css1/master.css">
+     <link rel="stylesheet" href="css1/normalize.css">
+     <!-- bootstrap -->
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+     <!-- font awsome library -->
+     <link rel="stylesheet" href="css1/all.min.css">
+     <!-- bootstrap icons library -->
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+     <!-- google fonts -->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+     
+</head>
+<body>
+    
+    <!-- شيلي الكومنت لما تخلصي يا ندى دا ال تدويرة بتاع الستارت -->
+    <!-- <div id="splash-screen">
+        <img src="images/shield_without_a_key.png" alt="Logo" id="logo" />
+    </div>
+      
+     <div id="main-content" style="display: none;"> -->
+
+
+
+        <!-- محتوى الموقع -->
+        <nav class="navbar navbar-expand-lg bg-white navbar-light " style="box-shadow: 0 0 10px #ddd;">
+          <div class="container">
+              <!-- الشعار -->
+              <a class="navbar-brand d-flex align-items-center" href="#">
+                  <div class="shield-container">
+                      <img id="shieldImage" src="images/shield_without_a_key.png" alt="Shield" class="shield-image" onclick="toggleShield()">
+                  </div>
+                  <span class="logostuff">Digital Guardian</span>
+              </a>
+      
+              <!-- زر القائمة في الشاشات الصغيرة -->
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarBigList" 
+              aria-controls="navbarBigList" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+              </button>
+      
+              <!-- قائمة التنقل -->
+              <div class="collapse navbar-collapse" id="navbarBigList">
+                  <ul class="navbar-nav ms-4 h5 ">
+                      <li class="nav-item pe-4 ">
+                          <a class="nav-link active " aria-current="page" href="#"> <span style="color: #B87333;">|</span> <span style="color: var(--main-color)"> Home</span></a>
+                      </li>
+                      <li class="nav-item pe-4">
+                          <a class="nav-link " href="#Labs"><span style="color: #B87333;">|</span> <span style="color: var(--main-color)"> labs</span></a>
+                      </li>
+                      <li class="nav-item pe-4">
+                          <a class="nav-link " href="#About"><span style="color: #B87333;">|</span> <span style="color: var(--main-color)"> About </span></a>
+                      </li>
+                      <li  class="nav-item pe-4">
+                          <a  class="nav-link " href="#Contact"> <span style="color: #B87333;">|</span> <span style="color: var(--main-color)">Contact </span></a>
+                      </li>
+                      <li class="nav-item d-inline-block d-lg-none pr-3">
+                          <a class="nav-link " href="signup-form-19/Account.html"> <span style="color: #B87333;">|</span> <span  style="color: var(--main-color)"> Log in </span> </a>
+                      </li>
+                  </ul>
+      
+                  <!-- تسجيل الدخول في أقصى اليمين -->
+                 
+              </div>
+              <a ms-auto px-auto href="signup-form-19/Account.html" class="d-lg-inline-block d-none nav-link "><span style="color: var(--main-color);" class="h5"><span style="color: #B87333;">|</span> Login </span><i class="fa-solid fa-fingerprint" style="color: #B87333; font-size: larger;"></i></a>
+          </div>
+      </nav>
+        <!-- end of nav -->
+
+        <!-- start of landing section -->
+      <div class="landing">
+        <div class="overlay"></div>
+        <div class="text">
+          <p  id="p1">Trusted guardian <i class="fa-solid fa-medal" style="color: #B87333; font-size: medium;"></i> </p>
+          <p  id="p2">of your <span class="knowledge-font">knowlege </span></p>
+          <!-- <p class="lead" id="p3">knowledge</p> -->
+        </div>
+        <!-- <img src="images/side-graph.png" class="side-graph img-fluid" alt=""> -->
+        <img src="images/the guardian.png" class="labtop-graph img-fluid" alt="">
+        <a href="#Labs" class="go-down">
+          <i class="fa-solid fa-angles-down"></i>
+        </a>
+      </div>
+      <!-- end of landing section -->
+       
+      
+        <!-- start of labs -->
+        <div class="try" style="background-color:rgb(234, 244, 251)">
+
+        <div  class="labs" id="Labs">
+
+          <div class="main-title">
+            <span class="half-shield-icon"><i class="fa-solid fa-shield-halved"></i>  </span>
+            <h2 class="main-title-headline">Labs</h2>
+            <span class="half-shield-icon"><i class="fa-solid fa-shield-halved"></i> </span>
+          </div>
+
+
+          <div class="container">
+            <div class="box">
+              <img decoding="async" src="images/xss.webp" alt="" />
+              <div class="content">
+                <h3>XSS</h3>
+                <p>"web vulnerability where attackers inject malicious scripts into trusted websites, compromising user interactions"</p>
+              </div>
+              <div class="info">
+                <a style="color: #B87333;" href="">Try</a>
+                <i style="color: #B87333;" class="fas fa-long-arrow-alt-right"></i>
+              </div>
+            </div>
+            <div class="box">
+              <img decoding="async" src="images/SQLI.webp" alt="" />
+              <div class="content">
+                <h3>SQLI</h3>
+                <p>"The SQL Injection (SQLi) allows attackers to manipulate database queries through malicious inputs"</p>
+              </div>
+              <div class="info">
+                <a style="color: #B87333;" href="">Try</a>
+                <i style="color: #B87333;" class="fas fa-long-arrow-alt-right"></i>
+              </div>
+            </div>
+            <div class="box">
+              <img decoding="async" src="images/AUTHBY.webp" alt="" />
+              <div class="content">
+                <h3>AUTHENTICATION BYPASS</h3>
+                <p>"let attackers gain unauthorized access by exploiting flaws in authentication mechanisms"</p>
+              </div>
+              <div class="info">
+                <a style="color: #B87333;" href="">Try</a>
+                <i style="color: #B87333;" class="fas fa-long-arrow-alt-right"></i>
+              </div>
+            </div>
+            <div class="box">
+              <img decoding="async" src="images/broken-acess-control.webp" alt="" />
+              <div class="content">
+                <h3>BROKEN ACCESS CONTROL</h3>
+                <p>"Occur when users access unauthorized resources due to  misconfigured permissions"</p>
+              </div>
+              <div class="info">
+                <a style="color: #B87333;" href="">Try</a>
+                <i style="color: #B87333;" class="fas fa-long-arrow-alt-right"></i>
+              </div>
+            </div>
+            <div class="box">
+              <img decoding="async" src="images/business.webp" alt="" />
+              <div class="content">
+                <h3>BUSINESS LOGIC VULNERABILITY</h3>
+                <p>"Exploiting logic flaws to manipulate transactions, bypass restrictions, and break security."</p>
+              </div>
+              <div class="info">
+                <a style="color: #B87333;" href="">Try</a>
+                <i style="color: #B87333;" class="fas fa-long-arrow-alt-right"></i>
+              </div>
+            </div>
+            <div class="box">
+              <img decoding="async" src="images/ssrf.webp" alt="" />
+              <div class="content">
+                <h3>SSRF</h3>
+                <p>"Tricking servers into making unauthorized requests to internal resources."</p>
+              </div>
+              <div class="info">
+                <a style="color: #B87333;" href="">Try</a>
+                <i style="color: #B87333;" class="fas fa-long-arrow-alt-right"></i>
+              </div>
+            </div>
+            <div class="box">
+              <img decoding="async" src="images/csrf.webp" alt="" />
+              <div class="content">
+                <h3>CSRF</h3>
+                <p>"Forces users to execute unwanted actions by exploiting their active sessions."</p>
+              </div>
+              <div class="info">
+                <a style="color: #B87333;" href="">Try</a>
+                <i style="color: #B87333;" class="fas fa-long-arrow-alt-right"></i>
+              </div>
+            </div>
+            <div class="box">
+              <img decoding="async" src="images/infodis.webp" alt="" />
+              <div class="content">
+                <h3>INFORMATION DISCLOSURE</h3>
+                <p>"Exposure of sensitive data due to misconfigurations, errors, or weak security."</p>
+              </div>
+              <div class="info">
+                <a style="color: #B87333;" href="">Try</a>
+                <i style="color: #B87333;" class="fas fa-long-arrow-alt-right"></i>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+
+      </div>
+        <!-- end of labs -->
+
+        <!-- start of the about section -->
+        <div class="try " style="background-color: rgb(234, 244, 251)" >
+          <!-- main title -->
+
+          <div  class="labs" id="About">
+  
+            <div class="main-title">
+              <span class="half-shield-icon"><i class="fa-solid fa-shield-halved"></i>  </span>
+              <h2 class="main-title-headline">About Us</h2>
+              <span class="half-shield-icon"><i class="fa-solid fa-shield-halved"></i> </span>
+            </div>
+            
+          <!-- the carousel -->
+      <div id="c1" class="carousel slide" style="height: 500px; background-image: url(images/coverOFslide.png); background-repeat: no-repeat; background-size: cover; background-clip: content-box;">
+        <!-- carousel items -->
+        <!-- this block settings is to make the p centeralized vertically $ horizontally with align-content-center $ justify-content-center -->
+          <!-- or i can use d-flex with flex-row with align-items-center -->
+          <!-- text center can be applied on the item div or the p itself -->
+        <div class="carousel-inner align-content-center justify-content-center d-block text-center" style="height: 500px;">
+            <div class="carousel-item active  ">
+              <h3 style="color:#B87333; font-size: 40px;">Brief</h3>
+              <p class="text-light lead mt-3 mx-auto" style="width: 70%;" >"Welcome to <span class="logo-in-slide"> Digital Guardian</span> , a platform designed to help users identify and understand web vulnerabilities through interactive labs and hands-on exercises. Our goal is to provide a practical learning experience for aspiring cybersecurity professionals."</p>
+            </div>
+            <div class="carousel-item text-center">
+              <h3 style="color:#B87333; font-size: 40px;" >Mission Statement:</h3>
+              <p class="text-light lead mt-3 mx-auto " style="width: 70%;">"Our mission is to create a secure digital environment by empowering users with the knowledge and tools to detect and prevent security flaws. We believe that hands-on experience is the key to mastering cybersecurity concepts."</p>
+            </div>
+            <div class="carousel-item text-center">
+              <h3 style="color:#B87333; font-size: 40px;" >Features</h3>
+              <p class="text-light lead mt-3 mx-auto" style="width: 70%;">"Our platform includes simulated environments like E-commerce and blog applications, each designed with built-in vulnerabilities for users to practice ethical hacking techniques. We focus on real-world scenarios to help users build practical skills."</p>
+            </div>
+        </div>
+
+        <!-- indicators -->
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#c1" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#c1" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#c1" data-bs-slide-to="2"></button>
+        </div>
+
+        <!-- left and right controls -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#c1" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#c1" data-bs-slide="next">
+           <span class="carousel-control-next-icon"></span>
+
+            <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+              </div>
+      <!-- end of the about section -->
+
+      <!-- start of contact section -->
+  <section class="py-5 mt-5 " style="background-color: var(--main-color);" id="Contact">
+    <div class="container ">
+        <div class="row align-content-center justify-content-between " style="background-color: var(--main-color);">
+            <div class="col-12 col-md-5">
+                <p class="lead text-white py-2">Contact us and we'll get back to you within 24 hours</p>
+                <div class="py-2 text-light"><i class="bi bi-geo-alt"></i> <span>Al-menoufia , Egypt</span></div>
+                <div class="py-2 text-light"><i class="bi bi-phone"></i> <span>+201124280818</span></div>
+                <div class="py-2 text-light"><i class="bi bi-envelope-at"></i> <span>Digital_Guardian@gmail.com</span></div>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <h3 class="text-white lead py-3 ">Contact</h3>
+                <form class="form" id="CF">
+                  <div class="cont d-flex justify-content-between p-1">
+                      <div class="w-50 pe-2"><input id="name" type="text" placeholder="Name" class="form-control"></div>
+                      <div class="w-50 ps-2"><input id="email" type="email" placeholder="Email" class="form-control "></div>
+                  </div>
+                  <!-- this form floating class will keep the label of the area even when you write inside -->
+                  <div class="form-floating"> 
+                      <!-- if it wasn't a form floating (no class) then it won't need height style , it just take the row="number" written blow ( rows doesn't work here cause it's float form classed) -->
+                      <textarea id="comment" class="form-control mt-2" rows="4" style="height: 70px"> </textarea>
+                      <label for="#comment" class="form-label">leave a comment</label>
+                  </div>
+                  <div class="col-12 mt-2">
+                    <button class="btn btn-light"; type="submit">Submit</button>
+                  </div>
+                </form>
+            </div>
+        </div>
+    </div>
+  </section>
+
+
+
+
+
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="script.js"></script>
+</body>
+</html>

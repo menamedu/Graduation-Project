@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# Get the username passed as an argument
+username=$1
+
+# Validate the username input
+if [ -z "$username" ]; then
+    echo "Error: No username provided."
+    exit 1
+fi
+
+# Create the container with the username as the container name
+docker run -d --name ${username}_lab_container --network large_network sql_upload_excute tail -f /dev/null
+
+# Start Apache2 and MariaDB inside the container
+docker exec ${username}_lab_container service apache2 start
+docker exec ${username}_lab_container service mariadb start
+docker exec ${username}_lab_container mysql -uroot -p 'mohamed' -e "SELECT VERSION();"
+# Get the container's IP address
+container_ip=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${username}_lab_container)
+
+# Verify if container_ip is valid
+if [ -z "$container_ip" ]; then
+    echo "Error: Unable to get the IP address of the container."
+    exit 1
+fi
+
+# Apache config file
+apache_config="/etc/apache2/sites-available/000-default.conf"
+
+# Backup the current Apache config before making any changes
+sudo cp $apache_config "${apache_config}.bak"
+
+# Add new reverse proxy entry for the user's lab container
+echo "Adding reverse proxy for $username's lab..."
+
+# Define the proxy path dynamically
+proxy_path="/sql_upload_${username}/"
+
+# Dynamically append the reverse proxy entries for the user's container
+echo "ProxyPass ${proxy_path} http://${container_ip}/" | sudo tee -a $apache_config
+echo "ProxyPassReverse ${proxy_path} http://${container_ip}/" | sudo tee -a $apache_config
+echo "<Location ${proxy_path}>" | sudo tee -a $apache_config
+echo "    Require all granted" | sudo tee -a $apache_config
+echo "</Location>" | sudo tee -a $apache_config
+
+# Restart Apache to apply changes
+sudo systemctl restart apache2
+
+# Return the lab URL
+echo "Lab URL: http://192.168.204.129${proxy_path}"
+
+

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  	<title>Sign in</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- google fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+         <!-- CSS STYLING -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		
+		<link rel="stylesheet" href="ACCOUNTcss/style.css">
+
+	</head>
+  <body class="img" style="background-image: url('https://img.freepik.com/free-vector/digital-white-background-with-binary-code-algorithm-numbers_1017-54561.jpg?t=st=1733344183~exp=1733347783~hmac=ac0dcd4f72935039866dd885bdeecff3a29a5290089318ae475c54497980451f&w=996'); background-size: cover; background-repeat: repeat; background-position: center;">
+
+	  <section class="ftco-section">
+		  <div class="container">
+			  <div class="row justify-content-center">
+				  <div class="col-md-6 text-center mb-5">
+					  <h2 class="heading-section">Sign in</h2>
+				  </div>
+			  </div>
+			  <div class="row justify-content-center">
+				  <div class="col-md-7 col-lg-5">
+					  <div class="login-wrap">
+						  <form id="signin-form" class="signin-form">
+							  <div class="form-group mb-3">
+								  <label class="label" for="email">username</label>
+								  <input type="text" id="username" name="username" class="form-control" placeholder="username" required>
+								  <span class="icon fa fa-paper-plane-o"></span>
+							  </div>
+
+							  <div class="form-group mb-3">
+								  <label class="label" for="password">Password</label>
+								  <input id="password" type="password" class="form-control" placeholder="Password" name="password" required>
+								  <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+								  <span class="icon fa fa-lock"></span>
+							  </div>
+
+							  <div class="form-group">
+								  <button type="submit" class="form-control btn btn-primary submit px-3">Sign in</button>
+							  </div>
+						  </form>
+
+					  </div>
+				  </div>
+			  </div>
+		  </div>
+	  </section>
+	  <script>
+          document.getElementById("signin-form").addEventListener("submit", async function (event) {
+              event.preventDefault();
+
+              const username = document.getElementById("username").value.trim();
+              const password = document.getElementById("password").value.trim();
+
+              try {
+                  const response = await fetch("http://localhost:5147/api/auth/login", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ Username: username, Password: password })
+                  });
+
+                  const text = await response.text();
+                  console.log("Raw response:", text);
+
+                  let data;
+                  try {
+                      data = JSON.parse(text);
+                  } catch (jsonError) {
+                      console.error("JSON parsing error:", jsonError);
+                      alert("Invalid response from server.");
+                      return;
+                  }
+
+                  if (!response.ok) {
+                      alert(data.Message || "Login failed");
+                      return;
+                  }
+
+                  sessionStorage.setItem("token", data.token);
+                  sessionStorage.setItem("userId", data.userId);
+                  sessionStorage.setItem("username", data.username);
+
+                  setTimeout(() => {
+                      window.location.replace("account view/accountview.html");
+                  }, 500);
+
+              } catch (error) {
+                  console.error("Error:", error);
+                  alert("Something went wrong during singin.");
+              }
+          });
+	  </script>
+		
+
+
+	  <script src="js/jquery.min.js"></script>
+	  <script src="js/popper.js"></script>
+	  <script src="js/bootstrap.min.js"></script>
+	  <script src="js/main.js"></script>
+
+  </body>
+</html>
+

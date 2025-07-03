@@ -1,0 +1,307 @@
+:root {
+    --main-font-family: "Caveat", cursive;
+    --main-font-optical-sizing: auto;
+    --main-font-weight: bold;
+    --main-font-style: normal;
+    --main-color: #044e7d;
+    --light-color: #1b8bd1;
+    --main-background-color: #eaf4fb99;
+    --copper-color: #B87333;
+}
+
+.dark-blue {
+    color: var(--main-color);
+}
+
+.copper-color {
+    color: var(--copper-color);
+}
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Work Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+ul {
+    list-style: NONE;
+}
+
+li {
+    color: var(--main-color);
+}
+
+i {
+    color: var(--copper-color);
+}
+
+.page {
+    min-height: 100vh;
+    background-color: var(--main-background-color);
+}
+
+.logo {
+    width: 80px;
+    padding: 20px 0px 0px;
+    position: relative;
+    transform: translateX(-50%);
+    left: 50%;
+}
+
+.side-bar {
+    width: 150px;
+    box-shadow: 0 0 10px #ddd;
+}
+
+.sidebar-span {
+    color: var(--main-color);
+}
+
+.side-bar ul li a {
+    transition: 0.3s;
+    padding: 3px;
+}
+
+    .side-bar ul li a:hover,
+    .side-bar ul li a.active {
+        background-color: #f6f6f6;
+        border-radius: 5px;
+    }
+
+@media(max-width:767px) {
+    .side-bar {
+        width: 62px;
+        padding: 10px;
+    }
+
+    .logo {
+        width: 60px;
+        padding: 10px;
+    }
+    /* start of content header */
+}
+
+.hacker-image {
+    width: 60px;
+    border-radius: 50%;
+}
+
+.notificationIcon {
+    position: relative;
+    cursor: pointer;
+}
+
+.notification-badge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: red;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: none; /*in the beginning*/
+}
+
+.notification-dropdown {
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 5px;
+    background: white;
+    border: 1px solid #ddd;
+    width: 250px;
+    padding: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    z-index: 5;
+}
+
+    .notification-dropdown ul {
+        list-style: none;
+        padding: 0;
+    }
+
+        .notification-dropdown ul li {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+        }
+
+            .notification-dropdown ul li:last-child {
+                border-bottom: none;
+            }
+/* end of content header */
+
+/* start of content heading and scrollbar */
+.heading {
+    display: block;
+    position: relative;
+    margin: 20px 90px 40px;
+    color: var(--main-color);
+    width: fit-content; /* عشان ال سودو اليمنتس  اظبط عرضها ع اساس الكلمة نفسها من غير ما اخلي ال هيدنج انلاين بلوك*/
+}
+
+    .heading::before,
+    .heading::after {
+        position: absolute;
+        content: "";
+        height: 3px;
+        bottom: -10px;
+        left: 0;
+        border-radius: 20px;
+    }
+
+    .heading::before {
+        width: 90%;
+        background-color: white;
+    }
+
+    .heading::after {
+        width: 30%;
+        background-color: var(--copper-color);
+    }
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: white;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--light-color);
+    border-radius: 8px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: var(--main-color);
+    }
+
+/* end of content heading and scrollbar  */
+
+/* start of wrapper */
+/* welcome column */
+.welcomeCOLUMN {
+    padding: 0 !important;
+    border-radius: 10px;
+    margin-right: 5px;
+    position: relative;
+}
+
+.welcome-flex {
+    width: 100%;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* news column */
+.news-image {
+    width: 150px;
+    margin: 0px 10px;
+    border-radius: 6px;
+}
+
+.avatar-image-2 {
+    width: 55px;
+    height: 55px;
+    margin-top: -32px;
+    margin-left: 20px;
+    border: 2px solid white;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 2;
+    padding: 2px;
+    box-shadow: 0 0 5px #ddd;
+}
+
+@media (max-width:767px) {
+    .avatar-image-2 {
+        left: 50%;
+        transform: translateX(-80%);
+        margin-top: -8px;
+        width: 70px;
+        height: 70px;
+    }
+}
+
+.data {
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.progress-button {
+    position: absolute;
+    padding: 10px;
+    bottom: 5px;
+    right: 10px;
+}
+
+
+.date-of-the-news {
+    width: fit-content;
+    height: fit-content;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    font-size: smaller;
+    color: var(--main-color);
+    text-align: center;
+}
+
+.latestnewsCOLUMN {
+    border-radius: 10px;
+    /* height: ;     ظبطي دي لما تحددي ارتفاع ال عمود ال جنبه بتاع الويلكم */
+    overflow-y: auto; /* عشان لما يعدي الارتفاع ال حددناه بس, يظهر سكرول لكن ف العادي مايظهرش*/
+}
+
+
+/* --------------------------------------------------------------------------------------------------------------- */
+
+/* start of SETTINGS page  */
+
+
+.general-info {
+    padding: 10px;
+    border-radius: 10px;
+    /* margin-right: 5px; */
+    position: relative;
+}
+
+.form input {
+    display: inline-block;
+    width: calc(100% - 90px);
+}
+
+    .form input:focus {
+        border: 1px solid var(--main-color) !important
+    }
+
+/*--------------------start of PROGRESS page----------------------- */
+thead {
+    font-size: large;
+    font-weight: 500;
+}
+/*--------------------start of Certificate page----------------------- */
+#nothing-text {
+    font-size: 25px;
+    color: var(--main-color);
+}
+
+#nothing-image {
+    width: 350px;
+}

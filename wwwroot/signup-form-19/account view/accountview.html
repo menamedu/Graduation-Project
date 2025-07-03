@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>account view</title>
+    <!-- css -->
+    <link rel="stylesheet" href="accountview.css">
+    <link rel="stylesheet" href="framework.css">
+    <!--bootstrap  -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- font awsome library--> <!-- that's my own library (my awsome kit) -->
+    <script src="https://kit.fontawesome.com/1ae36b3c15.js" crossorigin="anonymous"></script>
+    <!-- bootstrap icons library -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="page d-flex ">
+        <!-- side navigator -->
+        <div class="side-bar bg-white p-relative p-20 ">
+            <!-- d-none d-sm-inline-block -->
+            <img class="logo pb-3  " src="images/shield_with_a_key.png" alt="shield logo">
+            <ul style="padding-left: 0; ">
+                <li class="pb-4">
+                    <a class="d-flex gap-2  active" style="text-decoration: none;" href="accountview.html">
+                        <i class="bi bi-person-circle fa=fw"></i>
+                        <span class="sidebar-span d-none d-md-block">Profile</span>
+                    </a>
+                </li>
+
+                <li class="pb-4">
+                    <a class="d-flex gap-2" style="text-decoration: none;" href="settings.html">
+                        <i class="bi bi-gear-fill fa=fw"></i>
+                        <span class="sidebar-span d-none d-md-block ">Settings</span>
+                    </a>
+                </li>
+
+                <li class="pb-4">
+                    <a class="d-flex gap-2" style="text-decoration: none;" href="progress.html">
+                        <i class="bi bi-kanban fa=fw"></i>
+                        <span class="sidebar-span d-none d-md-block ">Progress</span>
+                    </a>
+                </li>
+
+                <li class="pb-4">
+                    <a class="d-flex gap-2" style="text-decoration: none;" href="certifications.html">
+                        <i class="bi bi-mortarboard fa=fw" style="font-size: larger;"></i>
+                        <span class="sidebar-span d-none d-md-block">Certificate</span>
+                    </a>
+                </li>
+            </ul>
+
+
+        </div>
+        <!-- end of side navigator -->
+        <!-- start of the content -->
+        <div class=" w-full">
+            <!-- start of head -->
+            <div class=" bg-white p-3 d-flex align-items-center justify-content-between">
+                <div class="search p-relative">
+                    <div class="input-group" style="width: 200px;">
+                        <button id="searchButton" class="input-group-text"> <i class="bi bi-search"></i></button>
+                        <input id="searchInput" type="search" class="form-control" placeholder=" search here">
+                    </div>
+                </div>
+                <button class="btn btn-warning " id="backToMain">Back to Main</button>
+                <div class="icons d-flex align-items-center">
+                    <span id="notificationIcon" class="notificationIcon p-relative align">
+                        <i class="bi bi-bell-fill fa-lg"></i>
+                        <span id="notificationBadge" class="notification-badge"></span>
+                    </span>
+                    <div id="notificationList" class="notification-dropdown">
+                        <h4 style="color: var(--copper-color);">Notifications</h4>
+                        <ul id="notifications"></ul>
+                    </div>
+                    <img id="avatar" class="hacker-image px-2" src="images/hacker-avatar.jpg" alt="User Avatar">
+
+                </div>
+            </div>
+            <!-- end of heah -->
+            <!-- start of heading and scroll bar -->
+            <h1 class="heading ">Profile</h1>
+            <!-- end of heading and scroll bar -->
+            <!-- start of wrapper -->
+            <div class="container">
+                <!-- first row -->
+                <div class="row gap-5 justify-content-evenly">
+                    <div class="welcomeCOLUMN col-11 col-lg-5 bg-white ">
+
+                        <div class="welcome-flex d-flex p-relative flex-column flex-md-row text-center text-md-start align-items-center justify-content-center justify-content-md-between">
+                            <!--من اول ال سمول لحد الميديام ترتيب العناصر عمودي, من فوق كدا هيكون الافقي الافتراضي للفليكس, دا عشان اظبط التيكست في ال سنتر في الشاشات الصغيرة-->
+                            <div> <h5 style="color: var(--main-color); margin: 20px 20px 12px;">Welcome</h5> <span id="user-name" class="lead m-4" style="color: var(--copper-color);">Naz</span></div>
+                            <img class="d-none d-md-block" style="width: 250px;" src="images/profile.png" alt="">
+                        </div>
+
+                        <img src="images/hacker-avatar.jpg" class="avatar-image-2 " alt="">
+
+                        <div id="userDATA" class="data text-center d-flex p-2 my-5 flex-column flex-md-row justify-content-center justify-content-md-evenly">
+                            <div id="user-card-name" class="d-flex flex-column m-3" style="font-size: 17px; color: var(--main-color);">Nada Tareq <span class=" lead" style="font-size:14px ; color: var(--copper-color);">pin tester</span> </div>
+                            <div id="userLABS" class="d-flex flex-column m-3" style="font-size: 17px; color: var(--main-color);">10 <span class=" lead" style="font-size: 14px; color: var(--copper-color);">labs</span> </div>
+                            <div id="userLEVEL" class="d-flex flex-column m-3" style="font-size: 17px; color: var(--main-color);">3 <span class="lead" style="font-size: 14px; color: var(--copper-color);">level</span></div>
+                            <a href="progress.html" role="button" class=" btn btn-outline-warning m-4 d-md-none" style="width: auto;">Progress</a>
+                        </div>
+                        <div class="my-4 p-2">
+                            <a href="progress.html" role="button" class="progress-button btn btn-outline-warning m-4 d-none d-md-block">Progress</a>
+                        </div>
+
+
+                    </div>
+
+                    <div class="latestnewsCOLUMN col-11 col-lg-5 bg-white">
+                        <h5 style="color: var(--main-color); margin: 20px;">Settings News</h5>
+
+                        <!-- blog 1 -->
+                        <div class=" d-flex justify-content-between my-2">
+                            <!-- image + image description -->
+                            <div class=" d-flex">
+                                <img class="news-image" src="images/chatbot.svg" alt="">
+                                <div class="image-description"> <h6 style="font-weight: bold; margin-bottom: 1px; color: var(--copper-color);">we added a chat-bot</h6> <span class="text-muted">our chat-bot can make it easier for you</span></div>
+                            </div>
+                            <!-- date of the news-->
+                            <div class="date-of-the-news">
+                                2ed april 2025
+                            </div>
+                        </div>
+                        <!-- blog 2 -->
+                        <div class=" d-flex justify-content-between my-2">
+                            <!-- image + image description -->
+                            <div class=" d-flex">
+                                <img class="news-image" src="images/mobile.png" alt="">
+                                <div class="image-description"> <h6 style="font-weight: bold; margin-bottom: 1px; color: var(--copper-color);">The mobile version</h6> <span class="text-muted">finally the mobile version has arrived</span></div>
+                            </div>
+                            <!-- date of the news-->
+                            <div class="date-of-the-news">
+                                2ed mars 2025
+                            </div>
+                        </div>
+                        <!-- blog 2 -->
+                        <div class=" d-flex justify-content-between my-2">
+                            <!-- image + image description -->
+                            <div class=" d-flex">
+                                <img class="news-image" src="images/website.png" alt="">
+                                <div class="image-description"> <h6 style="font-weight: bold; margin-bottom: 1px; color: var(--copper-color);">finallly </h6> <span class="text-muted">we launched our dearest Digital Guardian</span></div>
+                            </div>
+                            <!-- date of the news-->
+                            <div class="date-of-the-news">
+                                2ed mars 2025
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+            <!-- end of wrapper -->
+            <!-- end of the content -->
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const backButton = document.getElementById("backToMain");
+
+            if (backButton) {
+                backButton.addEventListener("click", function () {
+                    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+
+                    if (!token) {
+                        alert("you aren't logged in");
+                        window.location.href = "./signin.html";
+                    } else {
+                        window.location.href = "../BACKTOMAIN.html";
+                    }
+                });
+            } else {
+                console.error("Button with ID 'backToMain' not found!");
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="accountview.js"></script>
+</body>
+</html>

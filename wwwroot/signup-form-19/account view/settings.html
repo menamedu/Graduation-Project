@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>account view</title>
+    <!-- css -->
+    <link rel="stylesheet" href="accountview.css">
+    <link rel="stylesheet" href="framework.css">
+    <!--bootstrap  -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- font awsome library--> <!-- that's my own library (my awsome kit) -->
+    <script src="https://kit.fontawesome.com/1ae36b3c15.js" crossorigin="anonymous"></script>
+    <!-- bootstrap icons library -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="page d-flex ">
+        <!-- side navigator -->
+        <div class="side-bar bg-white p-relative p-20 ">
+            <!-- d-none d-sm-inline-block -->
+            <img class="logo pb-3  " src="images/shield_with_a_key.png" alt="shield logo">
+            <ul style="padding-left: 0; ">
+                <li class="pb-4">
+                    <a class="d-flex gap-2  " style="text-decoration: none;" href="accountview.html">
+                        <i class="bi bi-person-circle fa=fw"></i>
+                        <span class="sidebar-span d-none d-md-block">Profile</span>
+                    </a>
+                </li>
+
+                <li class="pb-4">
+                    <a class="d-flex gap-2 active" style="text-decoration: none;" href="settings.html">
+                        <i class="bi bi-gear-fill fa=fw"></i>
+                        <span class=" sidebar-span d-none d-md-block ">Settings</span>
+                    </a>
+                </li>
+
+                <li class="pb-4">
+                    <a class="d-flex gap-2" style="text-decoration: none;" href="progress.html">
+                        <i class="bi bi-kanban fa=fw"></i>
+                        <span class="sidebar-span d-none d-md-block ">Progress</span>
+                    </a>
+                </li>
+
+                <li class="pb-4">
+                    <a class="d-flex gap-2" style="text-decoration: none;" href="certifications.html">
+                        <i class="bi bi-mortarboard fa=fw" style="font-size: larger;"></i>
+                        <span class="sidebar-span d-none d-md-block">Certificate</span>
+                    </a>
+                </li>
+            </ul>
+
+
+        </div>
+        <!-- end of side navigator -->
+        <!-- start of the content -->
+        <div class=" w-full">
+            <!-- start of head -->
+            <div class=" bg-white p-3 d-flex align-items-center justify-content-between">
+                <div class="search p-relative">
+                    <div class="input-group" style="width: 200px;">
+                        <button id="searchButton" class="input-group-text"> <i class="bi bi-search"></i></button>
+                        <input id="searchInput" type="search" class="form-control" placeholder=" search here">
+                    </div>
+                </div>
+                <button class="btn btn-warning " id="backToMain">Back to Main</button>
+                <div class="icons d-flex align-items-center">
+                    <span id="notificationIcon" class="notificationIcon p-relative align">
+                        <i class="bi bi-bell-fill fa-lg"></i>
+                        <span id="notificationBadge" class="notification-badge"></span>
+                    </span>
+                    <div id="notificationList" class="notification-dropdown">
+                        <h4 style="color: var(--copper-color);">Notifications</h4>
+                        <ul id="notifications"></ul>
+                    </div>
+                    <img id="avatar" class="hacker-image px-2" src="images/hacker-avatar.jpg" alt="User Avatar">
+                </div>
+            </div>
+            <!-- end of heah -->
+            <!-- start of heading and scroll bar -->
+            <h1 class="heading ">Settings</h1>
+            <!-- end of heading and scroll bar -->
+            <!-- start of wrapper-->
+            <div class="container">
+                <!-- first row -->
+                <div class="row gap-5 justify-content-evenly">
+                    <!-- start of general info -->
+                    <div class="general-info col-11 col-lg-5 bg-white ">
+                        <h4 class="mb-1 color-main">General info</h4>
+                        <span class="text-muted ">General information about your account</span>
+
+                        <div class="form mt-4 mb-2 p-1">
+                            <label for="User-Name" class="text-muted d-block mb-1">User Name</label>
+                            <input type="text" disabled id="Username" class="border rounded-2  w-full p-2 mb-3 " placeholder="Naz">
+                            <button class="btn btn-outline-warning " style="height: 42px;" onclick="enableEdit('Username')">Change</button>
+
+                            <label for="email" class="text-muted d-block mb-1">Email</label>
+                            <input type="email" disabled id="Email" class=" border rounded-2 p-2" placeholder="Naz@gmail.com">
+                            <button class="btn btn-outline-warning " style="height: 42px;" onclick="enableEdit('Email')">Change</button>
+                            <label for="phone" class="text-muted d-block mb-1">Phone</label>
+                            <input type="tel" disabled id="Phone" class=" border rounded-2 p-2" placeholder="07777777777">
+                            <button class="btn btn-outline-warning " style="height: 42px;" onclick="enableEdit('Phone')">Change</button>
+                            <button class="btn btn-primary mt-3" onclick="saveChanges()">Save Changes</button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="general-info col-11 col-lg-5 bg-white ">
+                        <h4 class="mb-1 color-main">Security info</h4>
+                        <span class="text-muted ">We keep your data secure</span>
+                        <div class="form mt-4 mb-2 p-1" id="passwordForm">
+                            <label for="oldPassword" class="text-muted d-block mb-1">Old Password</label>
+                            <input type="password" id="oldPassword" class="border rounded-2 w-full p-2 mb-3" placeholder="******" disabled>
+                            <button type="button" class="btn btn-outline-warning mb-3" onclick="enablePasswordInputs()">Change Password</button>
+
+                            <label for="newPassword" class="text-muted d-block mb-1">New Password</label>
+                            <input type="password" id="newPassword" class="border rounded-2 w-full p-2 mb-3" placeholder="******" disabled>
+
+                            <label for="confirmPassword" class="text-muted d-block mb-1">Confirm New Password</label>
+                            <input type="password" id="confirmPassword" class="border rounded-2 w-full p-2 mb-3" placeholder="******" disabled>
+
+                            <button type="button" class="btn btn-outline-warning" style="height: 42px;" onclick="submitNewPassword()">Submit</button>
+
+                            <p id="ERRORmessage" style="color:#d9534f; display: none;"></p>
+
+                            <button id="logoutButton" class="btn btn-warning m-1 my-4">Log out</button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- end of content -->
+        </div>
+        <!-- end of page -->
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const backButton = document.getElementById("backToMain");
+
+            if (backButton) {
+                backButton.addEventListener("click", function () {
+                    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+
+                    if (!token) {
+                        alert("you aren't logged in");
+                        window.location.href = "./signin.html";
+                    } else {
+                        window.location.href = "../BACKTOMAIN.html";
+                    }
+                });
+            } else {
+                console.error("Button with ID 'backToMain' not found!");
+            }
+        });
+    </script>
+    <!-- js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="accountview.js"></script>
+</body>
+</html>

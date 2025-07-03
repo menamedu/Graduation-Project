@@ -1,0 +1,205 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GradProject</name>
+    </assembly>
+    <members>
+        <member name="T:GradProject.Controllers.AuthController">
+            <summary>
+            Controller for user authentication and profile management.
+            </summary>
+        </member>
+        <member name="M:GradProject.Controllers.AuthController.#ctor(GradProject.Services.IAuthService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:GradProject.Controllers.AuthController"/> class.
+            </summary>
+            <param name="authService">The authentication service instance.</param>
+        </member>
+        <member name="M:GradProject.Controllers.AuthController.Register(GradProject.DTOs.RegisterDTO)">
+            <summary>
+            Registers a new user.
+            </summary>
+            <param name="model">The registration details.</param>
+            <returns>A success message and JWT token if registration is successful, otherwise a bad request with errors.</returns>
+        </member>
+        <member name="M:GradProject.Controllers.AuthController.Login(GradProject.DTOs.LoginDTO)">
+            <summary>
+            Logs in an existing user.
+            </summary>
+            <param name="model">The login credentials.</param>
+            <returns>A JWT token if login is successful, otherwise unauthorized.</returns>
+        </member>
+        <member name="M:GradProject.Controllers.AuthController.GetUserProfile">
+            <summary>
+            Gets the profile of the currently authenticated user.
+            </summary>
+            <returns>The user's profile information, or 404 Not Found if the user is not found.</returns>
+        </member>
+        <member name="M:GradProject.Controllers.AuthController.UpdateUserProfile(GradProject.DTOs.UpdateProfileDTO)">
+            <summary>
+            Updates the profile of the currently authenticated user.
+            </summary>
+            <param name="model">The updated profile details.</param>
+            <returns>A success message and updated user details, or a bad request with errors.</returns>
+        </member>
+        <member name="M:GradProject.Controllers.AuthController.ChangePassword(GradProject.DTOs.ChangePasswordDto)">
+            <summary>
+            Changes the password of the currently authenticated user.
+            </summary>
+            <param name="model">The old and new password details.</param>
+            <returns>A success message, or a bad request with errors.</returns>
+        </member>
+        <member name="T:GradProject.Controllers.LabController">
+            <summary>
+            Controller for managing lab-related operations.
+            </summary>
+        </member>
+        <member name="M:GradProject.Controllers.LabController.#ctor(GradProject.LabManager,GradProject.Repositories.IUnitOfWork,Microsoft.AspNetCore.Http.IHttpContextAccessor)">
+            <summary>
+            Initializes a new instance of the <see cref="T:GradProject.Controllers.LabController"/> class.
+            </summary>
+            <param name="labManager">The lab manager instance.</param>
+            <param name="unitOfWork">The unit of work instance.</param>
+            <param name="httpContextAccessor">The HTTP context accessor instance.</param>
+        </member>
+        <member name="M:GradProject.Controllers.LabController.CreateLab(GradProject.DTOs.LabRequest)">
+            <summary>
+            Creates a new lab for a given user and image.
+            </summary>
+            <param name="request">The lab creation request containing username and image name.</param>
+            <returns>The URL of the created lab, or a bad request if validation fails or an error occurs.</returns>
+        </member>
+        <member name="M:GradProject.Controllers.LabController.ExtendLabTime(GradProject.DTOs.LabRequest)">
+            <summary>
+            Extends the time for a lab for a given user.
+            </summary>
+            <param name="request">The lab request containing the username.</param>
+            <returns>A success message, or a bad request if validation fails or an error occurs.</returns>
+        </member>
+        <member name="M:GradProject.Controllers.LabController.SubmitLab(System.String)">
+            <summary>
+            Submits a lab by setting its status to completed.
+            </summary>
+            <param name="flag">The flag associated with the lab.</param>
+            <returns>A success message, or a bad request if the lab or user lab is not found.</returns>
+        </member>
+        <member name="M:GradProject.Controllers.LabController.TerminateLab(System.String)">
+            <summary>
+            Terminates a lab given its URL.
+            </summary>
+            <param name="labUrl">The URL of the lab to terminate.</param>
+            <returns>A success message, or a bad request if the URL is invalid or an error occurs.</returns>
+        </member>
+        <member name="T:GradProject.Controllers.ProgressController">
+            <summary>
+            Controller for managing user progress in labs.
+            </summary>
+        </member>
+        <member name="M:GradProject.Controllers.ProgressController.#ctor(GradProject.Repositories.IUnitOfWork)">
+            <summary>
+            Initializes a new instance of the <see cref="T:GradProject.Controllers.ProgressController"/> class.
+            </summary>
+            <param name="unitOfWork">The unit of work instance.</param>
+        </member>
+        <member name="M:GradProject.Controllers.ProgressController.GetProgress">
+            <summary>
+            Gets the progress of the currently authenticated user across all labs.
+            </summary>
+            <returns>A list of progress DTOs for the user.</returns>
+        </member>
+        <member name="T:GradProject.Controllers.UserController">
+            <summary>
+            Controller for managing user-related operations.
+            </summary>
+        </member>
+        <member name="M:GradProject.Controllers.UserController.#ctor(GradProject.Repositories.IUnitOfWork)">
+            <summary>
+            Initializes a new instance of the <see cref="T:GradProject.Controllers.UserController"/> class.
+            </summary>
+            <param name="unitOfWork">The unit of work instance.</param>
+        </member>
+        <member name="M:GradProject.Controllers.UserController.GetUsers">
+            <summary>
+            Gets all users.
+            </summary>
+            <returns>A list of all users.</returns>
+        </member>
+        <member name="M:GradProject.Controllers.UserController.GetUser(System.Int32)">
+            <summary>
+            Gets a user by their ID.
+            </summary>
+            <param name="id">The ID of the user.</param>
+            <returns>The user with the specified ID, or a 404 Not Found if not found.</returns>
+        </member>
+        <member name="M:GradProject.Controllers.UserController.PostUser(GradProject.Models.Entities.User)">
+            <summary>
+            Creates a new user.
+            </summary>
+            <param name="user">The user object to create.</param>
+            <returns>The newly created user.</returns>
+        </member>
+        <member name="M:GradProject.Controllers.UserController.PutUser(System.Int32,GradProject.Models.Entities.User)">
+            <summary>
+            Updates an existing user.
+            </summary>
+            <param name="id">The ID of the user to update.</param>
+            <param name="user">The updated user object.</param>
+            <returns>No content, or a 400 Bad Request if the ID does not match.</returns>
+        </member>
+        <member name="M:GradProject.Controllers.UserController.DeleteUser(System.Int32)">
+            <summary>
+            Deletes a user by their ID.
+            </summary>
+            <param name="id">The ID of the user to delete.</param>
+            <returns>No content, or a 404 Not Found if the user is not found.</returns>
+        </member>
+        <member name="T:GradProject.Migrations.addsomelabs">
+            <inheritdoc />
+        </member>
+        <member name="M:GradProject.Migrations.addsomelabs.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:GradProject.Migrations.addsomelabs.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:GradProject.Migrations.addsomelabs.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:GradProject.Migrations.newone">
+            <inheritdoc />
+        </member>
+        <member name="M:GradProject.Migrations.newone.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:GradProject.Migrations.newone.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:GradProject.Migrations.newone.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:GradProject.Migrations.AddUserVulnerability">
+            <inheritdoc />
+        </member>
+        <member name="M:GradProject.Migrations.AddUserVulnerability.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:GradProject.Migrations.AddUserVulnerability.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:GradProject.Migrations.AddUserVulnerability.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:GradProject.Migrations.editLabTable">
+            <inheritdoc />
+        </member>
+        <member name="M:GradProject.Migrations.editLabTable.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:GradProject.Migrations.editLabTable.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:GradProject.Migrations.editLabTable.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

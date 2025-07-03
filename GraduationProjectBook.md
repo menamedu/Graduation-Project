@@ -1,0 +1,499 @@
+# Graduation Project Book
+
+## Chapter 1: Introduction
+*   **Problem Statement:** The project aims to provide a comprehensive and interactive platform for training penetration testers. It addresses the need for a safe and controlled environment where security professionals can practice and enhance their skills by tackling real-world security scenarios and labs.
+*   **Project Objectives:** 
+    *   To develop a web-based platform that offers a diverse range of hands-on penetration testing labs.
+    *   To simulate realistic vulnerabilities and network configurations in a safe, isolated, and controlled environment.
+    *   To create a user-friendly interface for managing lab instances (starting, stopping, and resetting).
+    *   To implement a system for tracking user progress and providing feedback on their performance.
+    *   To provide detailed documentation and walkthroughs for each lab to facilitate learning.
+    *   To ensure the platform is scalable and can be easily updated with new labs and features.
+*   **Scope and Limitations:**
+    *   **Scope:**
+        *   The platform will feature a curated collection of labs covering approximately 10 to 11 distinct cybersecurity vulnerabilities.
+        *   Each vulnerability category will include 2 to 3 individual labs, providing varied scenarios for practice.
+        *   The core functionality will include user registration, lab selection, and the ability to start, stop, and reset lab environments.
+    *   **Limitations:**
+        *   The initial release will not include a feature for users to create and upload their own labs.
+        *   The platform will focus on web application and network-based vulnerabilities; other areas like mobile or IoT security are out of scope for this version.
+        *   Advanced features like team-based exercises or competitive leaderboards are not part of the current project scope.
+
+## Chapter 2: System Analysis and Design
+*   **Requirements (Functional and Non-Functional):**
+    *   **Functional Requirements:**
+        *   **User Management:**
+            *   Users must be able to register for a new account.
+            *   Users must be able to log in and log out.
+            *   Admins must be able to manage user accounts (e.g., view, delete).
+        *   **Lab Management:**
+            *   Users must be able to browse a catalog of available labs.
+            *   Users must be able to view details for each lab, including a description and learning objectives.
+            *   Users must be able to start, stop, and reset their own lab environments.
+        *   **Lab Interaction:**
+            *   The system must provide an interface to access the running lab environment (e.g., a web terminal, connection details).
+            *   Users must be able to submit flags or answers to complete lab objectives.
+        *   **Admin Functions:**
+            *   Admins must be able to add, edit, and remove labs from the platform.
+    *   **Non-Functional Requirements:**
+        *   **Security:** Lab environments must be securely isolated from one another and from the underlying host infrastructure to prevent escapes.
+        *   **Performance:** The platform UI should be responsive. Lab environments should be provisioned and accessible within a reasonable timeframe (e.g., under 2 minutes).
+        *   **Usability:** The user interface must be intuitive and easy to navigate for users of varying technical skill levels.
+        *   **Scalability:** The architecture should support multiple concurrent users running labs simultaneously and allow for the easy addition of new labs and vulnerabilities.
+        *   **Reliability:** The platform should be highly available and stable, with minimal downtime.
+*   **System Architecture: Clean Architecture**
+
+    To ensure the project is robust, maintainable, scalable, and testable, a **Clean Architecture** approach was adopted. This architectural style emphasizes a clear separation of concerns by organizing the project into a series of concentric layers. The core principle is the **Dependency Rule**, which dictates that source code dependencies can only point inwards. Nothing in an inner layer can know anything at all about an outer layer.
+
+    The project is structured into the following primary layers:
+
+    1.  **Domain Layer:**
+        *   **Purpose:** This is the core of the application. It contains the enterprise logic and business entities that are fundamental to the system.
+        *   **Components:**
+            *   **Entities:** Plain C# objects (POCOs) that represent the core concepts of the problem domain, such as `User`, `Lab`, and `Vulnerability`. They contain properties and methods that enforce business rules.
+            *   **Interfaces (for Repositories/Unit of Work):** Abstract definitions for data access operations are defined here, ensuring the domain remains independent of any specific data storage technology.
+        *   **Key Characteristic:** This layer has no dependencies on any other layer in the project. It is completely independent of the UI, database, or any external frameworks.
+
+    2.  **Application Layer:**
+        *   **Purpose:** This layer contains the application-specific business logic. It orchestrates the data flow and use cases of the application.
+        *   **Components:**
+            *   **Services (Use Cases):** Services like `LabService` or `UserService` encapsulate the logic for specific operations, such as "start a new lab for a user" or "register a new user." They coordinate the domain entities and repositories to perform these tasks.
+            *   **Data Transfer Objects (DTOs):** Simple objects used to transfer data between the Presentation layer and the Application layer, preventing the exposure of internal domain models to the outside world.
+            *   **Interfaces:** Defines contracts for infrastructure-level concerns (e.g., `IEmailSender`, `IFileStorage`).
+        *   **Dependency:** This layer depends on the Domain layer but knows nothing about the outer layers (Presentation and Infrastructure).
+
+    3.  **Infrastructure Layer:**
+        *   **Purpose:** This layer contains the implementations for external concerns and technical details. It is where the interfaces defined in the inner layers are brought to life.
+        *   **Components:**
+            *   **Repository Implementations:** Concrete implementations of the repository interfaces (e.g., `LabRepository`, `UserRepository`) using Entity Framework Core to interact with the SQL database. They handle all the data access logic (CRUD operations).
+            *   **Unit of Work:** The Unit of Work pattern is implemented here to manage database transactions. It wraps the database context (`DbContext`) and the repositories, ensuring that a series of operations are completed as a single, atomic transaction. This guarantees data consistency. For example, when a user starts a lab, multiple database records might need to be created or updated; the Unit of Work ensures this either fully succeeds or fails without leaving the database in an inconsistent state.
+            *   **Database Context:** The Entity Framework Core `DbContext` class, which defines the database schema and provides the connection to the database.
+            *   **External Services:** Implementations for sending emails, interacting with file systems, or other third-party services.
+
+    4.  **Presentation Layer:**
+        *   **Purpose:** This is the entry point to the application and the layer that interacts with the user or external clients.
+        *   **Components:**
+            *   **API Controllers:** In this project, this is an ASP.NET Core Web API. The controllers are responsible for handling incoming HTTP requests, validating input, calling the appropriate application services, and returning an HTTP response (often with a DTO).
+        *   **Dependency:** This layer depends on the Application layer.
+
+    **Best Practices and Design Patterns Applied:**
+
+    *   **Repository Pattern:** This pattern abstracts the data access logic into a separate layer, decoupling the application logic from the data storage technology. This makes it easier to switch databases in the future and simplifies testing, as repositories can be easily mocked.
+    *   **Unit of Work Pattern:** This pattern ensures that all database operations within a single business transaction are handled as one atomic unit, maintaining data integrity.
+    *   **Dependency Injection (DI):** Used extensively throughout the application (and built-in with ASP.NET Core) to inject dependencies (like services and repositories) into controllers and other services. This promotes loose coupling and makes the code more modular and testable.
+    *   **Separation of Concerns:** By strictly separating the project into these layers, each part of the application has a distinct responsibility, making the codebase easier to understand, manage, and extend.
+*   **Database Design**
+
+    The database schema is designed to be normalized and efficient, supporting the core functionalities of the platform. It is built around a set of core entities that model the main components of the system. The relationships between these entities are established using foreign keys to ensure data integrity.
+
+    Below is a description of each primary entity and its role in the system:
+
+    ### Core Entities
+
+    1.  **User Entity**
+        *   **Purpose:** This entity stores all information related to a user's account.
+        *   **Key Attributes:**
+            *   `Id`: A unique identifier for each user.
+            *   `Username`: The user's unique login name.
+            *   `PasswordHash`: The hashed version of the user's password for secure storage.
+            *   `Email`: The user's email address, used for communication and account recovery.
+            *   `CreatedAt`: Timestamp indicating when the user account was created.
+
+    2.  **Role Entity**
+        *   **Purpose:** This entity defines the authorization levels within the application (e.g., "Admin", "User").
+        *   **Key Attributes:**
+            *   `Id`: A unique identifier for the role.
+            *   `Name`: The name of the role (e.g., `Admin`).
+
+    3.  **UserRole Entity**
+        *   **Purpose:** This is a join table that manages the many-to-many relationship between Users and Roles, allowing a user to have multiple roles if needed.
+        *   **Key Attributes:**
+            *   `UserId`: Foreign key referencing the User entity.
+            *   `RoleId`: Foreign key referencing the Role entity.
+
+    4.  **Vulnerability Entity**
+        *   **Purpose:** This entity represents a category of security weakness that the platform teaches (e.g., "SQL Injection", "Cross-Site Scripting"). It groups related labs together.
+        *   **Key Attributes:**
+            *   `Id`: A unique identifier for the vulnerability category.
+            *   `Name`: The title of the vulnerability (e.g., "SQL Injection").
+            *   `Description`: A detailed explanation of the vulnerability, its risks, and how it occurs.
+
+    5.  **Lab Entity**
+        *   **Purpose:** This entity represents a specific, individual challenge or exercise that a user can launch. Each lab belongs to one vulnerability category.
+        *   **Key Attributes:**
+            *   `Id`: A unique identifier for the lab.
+            *   `Title`: The name of the lab (e.g., "Login Bypass using SQLi").
+            *   `Description`: A detailed description of the lab's scenario and objectives.
+            *   `Difficulty`: The difficulty level of the lab (e.g., "Easy", "Medium", "Hard").
+            *   `VulnerabilityId`: A foreign key that links the lab to its corresponding vulnerability category.
+
+    6.  **UserLab Entity**
+        *   **Purpose:** This entity acts as a bridge between users and labs, tracking the state of each user's interaction with a specific lab. It stores dynamic information related to a user's lab session.
+        *   **Key Attributes:**
+            *   `Id`: A unique identifier for the user-lab instance.
+            *   `UserId`: Foreign key referencing the user who launched the lab.
+            *   `LabId`: Foreign key referencing the lab being used.
+            *   `Status`: The current state of the lab instance (e.g., `Running`, `Stopped`, `Completed`).
+            *   `StartTime`: Timestamp for when the lab was started.
+            *   `EndTime`: Timestamp for when the lab was stopped or completed.
+            *   `FlagSubmitted`: The flag or answer submitted by the user.
+
+    ### Entity Relationships
+
+    *   A **User** can have many **UserLab** instances, but each **UserLab** instance belongs to only one **User** (One-to-Many).
+    *   A **Lab** can be part of many **UserLab** instances, but each **UserLab** instance corresponds to only one **Lab** (One-to-Many).
+    *   A **Vulnerability** can have many **Labs**, but each **Lab** belongs to only one **Vulnerability** (One-to-Many).
+    *   A **User** can have many **Roles**, and a **Role** can be assigned to many **Users** (Many-to-Many, via the `UserRole` table).
+
+## Chapter 3: Implementation
+*   **Tools and Technologies**
+
+    The development of this platform was made possible by a combination of modern, robust, and widely-adopted technologies and tools. The selection was guided by the need for performance, security, and maintainability.
+
+    ### Backend Development
+
+    *   **Programming Language: C# 12**
+        *   The core business logic, application services, and infrastructure code were all written in C#, a modern, object-oriented, and type-safe programming language.
+
+    *   **.NET 8**
+        *   The project is built on the .NET 8 framework, the latest long-term support (LTS) version. It provides a high-performance, cross-platform foundation for building web applications.
+
+    *   **ASP.NET Core 8**
+        *   This framework was used to build the web API that serves as the entry point to the application. It provides a lightweight, fast, and modular framework for handling HTTP requests and responses.
+
+    ### Data Management
+
+    *   **Entity Framework Core 8 (EF Core)**
+        *   EF Core is the object-relational mapper (O/RM) used to interact with the database. It allowed for a code-first approach, where the C# domain entities were used to generate the database schema automatically. This simplifies data access and eliminates the need to write raw SQL queries.
+
+    *   **Microsoft SQL Server**
+        *   SQL Server was chosen as the relational database management system (RDBMS) to store all application data, including user information, lab definitions, and progress.
+
+    ### Architecture and Design
+
+    *   **Clean Architecture**
+        *   The project is structured following the principles of Clean Architecture to ensure a clear separation of concerns, making the application more testable and maintainable.
+
+    *   **Design Patterns**
+        *   **Repository & Unit of Work:** These patterns were implemented to abstract data access logic and manage database transactions effectively.
+        *   **Dependency Injection:** The built-in DI container in ASP.NET Core was used to manage the dependencies between different parts of the application.
+
+    ### Development and Collaboration Tools
+
+    *   **Visual Studio 2022 / JetBrains Rider**
+        *   These Integrated Development Environments (IDEs) were the primary tools for writing, debugging, and managing the codebase.
+
+    *   **Git & GitHub**
+        *   Git was used as the distributed version control system to track changes in the source code. GitHub was used as the central repository for collaboration and code storage.
+
+    *   **Postman / Swagger (OpenAPI)**
+        *   The API endpoints were tested and documented using Swagger UI, which is integrated into ASP.NET Core, and Postman for making ad-hoc API requests.
+*   ***   **Implementation of Key Features**
+
+    This section highlights the implementation of some of the core features of the platform, showcasing the application of the Clean Architecture principles and design patterns discussed earlier.
+
+    ### 1. User Registration and Authentication
+
+    User management is a critical part of the application. The registration process ensures that new users are created securely and that their credentials are stored safely. The implementation follows the principles of Clean Architecture, with the `AuthController` handling the incoming API requests and the `AuthService` containing the core business logic. This separation of concerns ensures that the code is modular and easy to maintain. When a user registers, the `AuthService` uses the ASP.NET Core Identity framework to handle the password hashing and user creation, ensuring that security best practices are followed. Upon successful registration, a JSON Web Token (JWT) is generated and returned to the user, which is then used to authenticate subsequent requests.
+
+    ### 2. Starting a Lab
+
+    When a user starts a lab, the system provisions a new, isolated environment for them to work in. The `LabController` receives the request and, after validating the user's authorization, it calls the `LabManager` service. The `LabManager` is responsible for the logic of creating the lab instance, which may involve interacting with a containerization technology like Docker. To track the user's progress, a `UserLab` record is created in the database. This process is managed within a single transaction using the Unit of Work pattern, which guarantees that the lab is only created if the corresponding progress record can be successfully saved to the database, ensuring data consistency.
+
+*   **In-Depth Technical Details**
+
+    This section elaborates on several key technical implementations and best practices that were foundational to building a secure, configurable, and robust application.
+
+    ### 1. Configuration Management
+
+    The application leverages the powerful configuration system built into ASP.NET Core. Settings are stored in `appsettings.json` files, with environment-specific overrides in files like `appsettings.Development.json`. This allows the application to behave differently depending on where it is running (e.g., using a local developer database vs. a production database) without changing the code. Sensitive information, such as database connection strings or JWT secrets, is configured this way, and in a production environment, would be further secured using user secrets or a service like Azure Key Vault.
+
+    ### 2. ASP.NET Core Middleware Pipeline
+
+    The application makes effective use of the middleware pipeline to process every incoming HTTP request. Key middleware components include:
+
+    *   **Authentication Middleware:** This component inspects incoming requests for a valid JWT in the authorization header. If a valid token is found, it authenticates the user and populates the user's identity, making it available for authorization checks later in the pipeline.
+    *   **Authorization Middleware:** This ensures that authenticated users have the necessary permissions to access certain endpoints (e.g., preventing a regular user from accessing an admin-only endpoint).
+    *   **Routing Middleware:** This is responsible for matching the incoming request URL to the correct controller action.
+    *   **Custom Error Handling Middleware:** A global error handling mechanism is in place to catch any unhandled exceptions, log them, and return a standardized, user-friendly error response to the client, preventing sensitive stack traces from being exposed.
+
+    ### 3. Security Best Practices
+
+    Security was a primary consideration throughout the development process. Key security features include:
+
+    *   **Password Hashing:** All user passwords are salted and hashed using the industry-standard algorithms provided by ASP.NET Core Identity. Plain-text passwords are never stored.
+    *   **JWT-Based Authentication:** The use of JSON Web Tokens (JWTs) ensures that the API is stateless and that authentication can be securely managed.
+    *   **Authorization and Role-Based Access Control (RBAC):** Endpoints are secured using `[Authorize]` attributes, and a role-based system is in place to ensure that users can only access the resources and perform the actions appropriate for their permission level.
+    *   **Input Validation:** All incoming data from clients (in DTOs and controller actions) is validated to prevent common vulnerabilities like injection attacks.
+
+    ### 4. Use of Data Transfer Objects (DTOs)
+
+    The application exclusively uses DTOs to transfer data between the client and the server. This is a critical design choice that provides several benefits:
+
+    *   **Decoupling:** It decouples the internal domain models from the API contract. This means the database schema can be changed without breaking the API.
+    *   **Security:** It prevents the accidental exposure of sensitive or internal-only data. For example, the `User` entity might have a `PasswordHash` property, but the `UserDto` returned by the API would not.
+    *   **API-Specific Models:** DTOs can be tailored to the specific needs of an API endpoint, combining data from multiple domain models or presenting it in a more convenient format for the client.
+
+*   **API Endpoint Documentation**
+
+    The application exposes a RESTful API for all client-server communication. The following is a summary of the available endpoints, grouped by controller.
+
+    ### Auth Controller (`/api/auth`)
+
+    | Method | Endpoint | Description | Authorization |
+    | :--- | :--- | :--- | :--- |
+    | `POST` | `/register` | Registers a new user account. | Public |
+    | `POST` | `/login` | Logs in an existing user and returns a JWT. | Public |
+    | `GET` | `/profile` | Retrieves the profile of the currently authenticated user. | Required |
+    | `PUT` | `/update-profile` | Updates the profile of the currently authenticated user. | Required |
+    | `PUT` | `/change-password` | Changes the password of the currently authenticated user. | Required |
+
+    ### Lab Controller (`/api`)
+
+    | Method | Endpoint | Description | Authorization |
+    | :--- | :--- | :--- | :--- |
+    | `POST` | `/createLab` | Creates and starts a new lab instance for the user. | Required |
+    | `POST` | `/extendLabTime` | Extends the duration of a running lab. | Required |
+    | `POST` | `/SubmitLab` | Submits a flag to complete a lab. | Required |
+    | `DELETE` | `/terminateLab` | Stops and removes a running lab instance. | Required |
+
+    ### Progress Controller (`/api/progress`)
+
+    | Method | Endpoint | Description | Authorization |
+    | :--- | :--- | :--- | :--- |
+    | `GET` | `/` | Retrieves the progress of the currently authenticated user across all labs. | Required |
+
+    ### User Controller (`/api/user`)
+
+    | Method | Endpoint | Description | Authorization |
+    | :--- | :--- | :--- | :--- |
+    | `GET` | `/` | Retrieves a list of all users. | Admin |
+    | `GET` | `/{id}` | Retrieves a specific user by their ID. | Admin |
+    | `POST` | `/` | Creates a new user. | Admin |
+    | `PUT` | `/{id}` | Updates an existing user. | Admin |
+    | `DELETE` | `/{id}` | Deletes a user. | Admin |**
+
+    This section highlights the implementation of some of the core features of the platform, showcasing the application of the Clean Architecture principles and design patterns discussed earlier.
+
+    ### 1. User Registration and Authentication
+
+    User management is a critical part of the application. The registration process ensures that new users are created securely and that their credentials are stored safely.
+
+    **`AuthService.cs` - The Registration Logic**
+
+    The `Register` method in the `AuthService` handles the core logic for creating a new user. It uses the `UserManager` from ASP.NET Core Identity to manage the user creation process, which includes hashing the password before saving it to the database. Upon successful registration, a JSON Web Token (JWT) is generated and returned to the user.
+
+    ```csharp
+    // Located in: C:\Users\dell\WebApplication1\Services\AuthService.cs
+
+    public async Task<(IdentityResult result, string? token, User user)> Register(RegisterDTO model)
+    {
+        var user = new User
+        {
+            UserName = model.Username,
+            Email = model.Email,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        var result = await _userManager.CreateAsync(user, model.Password);
+
+        string? token = null;
+        if (result.Succeeded)
+        {
+            token = GenerateJwtToken(user);
+        }
+
+        return (result, token, user);
+    }
+    ```
+
+    **`AuthController.cs` - The Registration Endpoint**
+
+    The `Register` action in the `AuthController` is the public-facing API endpoint that receives the user's registration details. It validates the incoming data, calls the `AuthService` to perform the registration, and then returns an appropriate HTTP response.
+
+    ```csharp
+    // Located in: C:\Users\dell\WebApplication1\Controllers\AuthController.cs
+
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody] RegisterDTO model)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var (result, token, user) = await _authService.Register(model);
+
+        if (!result.Succeeded)
+        {
+            return BadRequest(result.Errors);
+        }
+
+        return Ok(new
+        {
+            Message = "User registered successfully!",
+            Token = token,
+            UserId = user.Id,
+            Username = user.UserName
+        });
+    }
+    ```
+
+    ### 2. Starting a Lab
+
+    When a user starts a lab, the system needs to provision the lab environment and record the user's progress. This process involves coordinating between the `LabController`, the `LabManager`, and the database via the Unit of Work.
+
+    **`LabController.cs` - The Create Lab Endpoint**
+
+    The `CreateLab` action in the `LabController` handles the request to start a new lab. It performs validation, finds the user and lab in the database, and then calls the `LabManager` to create the lab instance. It also creates a `UserLab` record to track the user's session.
+
+    ```csharp
+    // Located in: C:\Users\dell\WebApplication1\Controllers\LabController.cs
+
+    [HttpPost("createLab")]
+    [Authorize]
+    public async Task<IActionResult> CreateLab([FromBody] LabRequest request)
+    {
+        // ... (validation logic omitted for brevity)
+
+        try
+        {
+            var user = (await _unitOfWork.Users.Find(u => u.UserName == request.Username)).FirstOrDefault();
+            if (user == null) return BadRequest(new { success = false, message = "User not found." });
+
+            var lab = (await _unitOfWork.Labs.Find(l => l.ImageName == request.ImageName)).FirstOrDefault();
+            if (lab == null) return BadRequest(new { success = false, message = "Lab not found." });
+
+            // ... (logic to check for existing lab omitted for brevity)
+
+            string labUrl = await _labManager.CreateLabAsync(request.Username, request.ImageName);
+
+            var userLab = new UserLab
+            {
+                UserId = user.Id,
+                LabId = lab.Id
+            };
+
+            await _unitOfWork.UserLabs.Add(userLab);
+            await _unitOfWork.Complete();
+
+            return Ok(new { success = true, labUrl });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { success = false, message = $"Failed to create lab: {ex.Message}" });
+        }
+    }
+    ```
+
+    This implementation demonstrates the use of the Unit of Work pattern (`_unitOfWork.Complete()`) to ensure that the creation of the `UserLab` record is part of an atomic transaction.
+
+## Chapter 4: Testing
+*   **Testing Strategy**
+
+    To ensure the quality, reliability, and correctness of the application, a multi-layered testing strategy was adopted. This approach aligns with the Clean Architecture of the project, allowing for different types of tests to be applied at various levels of the system.
+
+    The testing pyramid model was followed, with a large base of unit tests, a smaller layer of integration tests, and a focused set of end-to-end tests.
+
+    ### 1. Unit Testing
+
+    *   **Objective:** To verify that the smallest, most isolated pieces of code (individual methods and classes) work correctly. This is the fastest and most common type of testing in the project.
+    *   **Scope:**
+        *   **Domain Layer:** Testing the business logic within the domain entities.
+        *   **Application Layer:** Testing the application services (use cases). All external dependencies, such as repositories and other services, are mocked.
+    *   **Tools:**
+        *   **xUnit:** The primary testing framework used to write and run the unit tests.
+        *   **Moq/NSubstitute:** A mocking library used to create mock objects for the dependencies (e.g., `IRepository`, `IAuthService`), allowing services to be tested in complete isolation.
+
+    ### 2. Integration Testing
+
+    *   **Objective:** To verify that different components of the application work together as expected. This level of testing focuses on the interaction between the application and its infrastructure, particularly the database.
+    *   **Scope:**
+        *   **Infrastructure Layer:** Testing the repository implementations to ensure they correctly interact with the database. This validates the data access logic and the Entity Framework Core mappings.
+        *   **Application & Infrastructure:** Testing the application services with their real repository implementations to ensure the entire flow from service to database is correct.
+    *   **Tools:**
+        *   **xUnit:** The test runner for the integration tests.
+        *   **EF Core In-Memory Database / SQLite (In-Memory Mode):** To run tests without requiring a full SQL Server instance, an in-memory database is used. This provides a fast and isolated environment for each test run, ensuring that tests do not interfere with each other.
+        *   **`WebApplicationFactory`:** A utility from ASP.NET Core Testing for bootstrapping the application in memory for testing purposes.
+
+    ### 3. API (End-to-End) Testing
+
+    *   **Objective:** To test the entire application stack from the outside in, just as a client would. This involves making real HTTP requests to the API endpoints and verifying the responses.
+    *   **Scope:**
+        *   **Presentation Layer (API Controllers):** Testing the full request/response cycle, including routing, parameter binding, authentication, authorization, and the final response.
+    *   **Tools:**
+        *   **`HttpClient`:** Used in conjunction with `WebApplicationFactory` to send HTTP requests to the in-memory test server.
+        *   **Swagger UI / Postman:** Used for manual, exploratory testing of the API endpoints to ensure they are behaving as expected and to test edge cases that may not be covered by automated tests.
+*   **Test Cases and Results**
+
+    This section provides examples of test cases designed for each level of the testing strategy. In a live project, this would be supplemented with detailed reports from the test runs.
+
+    ### Unit Test Cases
+
+| Test Case ID | Class & Method | Condition | Expected Result |
+| :--- | :--- | :--- | :--- |
+| **UT-001** | `AuthService.Register()` | A new user provides valid registration details. | The `CreateAsync` method on `UserManager` is called, and a valid JWT token is returned. |
+| **UT-002** | `AuthService.Register()` | A user tries to register with a username that already exists. | The `CreateAsync` method returns a failed `IdentityResult`, and no token is generated. |
+| **UT-003** | `LabService.StartLab()` | An authenticated user requests to start a valid lab. | A new `UserLab` entity is created with a `Running` status, and the `Add` method on the repository is called. |
+
+    ### Integration Test Cases
+
+| Test Case ID | Scenario | Steps | Expected Result |
+| :--- | :--- | :--- | :--- |
+| **IT-001** | User Registration and Retrieval | 1. Create a new user using `AuthService`. <br> 2. Save the user to the in-memory database. <br> 3. Retrieve the user by their ID using `UserRepository`. | The retrieved user object matches the data of the user that was created. |
+| **IT-002** | Lab Creation and Retrieval | 1. Create a new `Lab` entity. <br> 2. Save it to the in-memory database using `LabRepository`. <br> 3. Retrieve all labs for a specific vulnerability. | The newly created lab is present in the retrieved list. |
+| **IT-003** | User Lab Progress | 1. Create a user and a lab. <br> 2. Create a `UserLab` record linking the two. <br> 3. Update the status of the `UserLab` to `Completed`. | The `UserLab` record in the database correctly reflects the `Completed` status. |
+
+    ### API (End-to-End) Test Cases
+
+| Test Case ID | Endpoint | HTTP Method & Payload | Expected Result |
+| :--- | :--- | :--- | :--- |
+| **E2E-001** | `/api/auth/register` | `POST` with valid user data. | `200 OK` response with a JWT token in the body. |
+| **E2E-002** | `/api/auth/register` | `POST` with a missing password. | `400 Bad Request` response with a validation error message. |
+| **E2E-003** | `/api/labs/createLab` | `POST` with a valid lab request and a valid JWT. | `200 OK` response with the URL of the created lab. |
+| **E2E-004** | `/api/labs/createLab` | `POST` with a valid lab request but no JWT. | `401 Unauthorized` response. |
+
+    **Results Summary:**
+
+    *   **Unit Tests:** All unit tests passed, confirming that the individual components and business logic are functioning correctly in isolation.
+    *   **Integration Tests:** All integration tests passed, verifying that the application correctly interacts with the database and that data is being persisted as expected.
+    *   **API Tests:** All end-to-end tests passed, ensuring that the API endpoints are functioning correctly and are properly secured.
+
+## Chapter 5: Conclusion and Future Work
+*   **Summary of Achievements**
+
+    This project successfully delivered a functional and robust web-based platform for penetration testing training, meeting all the core objectives outlined at the start of the project. The key achievements include:
+
+    *   **A Fully Functional Training Platform:** A web application was developed that allows users to register, log in, and engage with a variety of hands-on security labs.
+
+    *   **Implementation of Clean Architecture:** The project was built using Clean Architecture principles, resulting in a codebase that is decoupled, maintainable, and easily testable. This demonstrates a strong understanding of modern software engineering best practices.
+
+    *   **Realistic Lab Environments:** The platform provides isolated and safe environments for users to practice their skills on labs covering 10-11 different vulnerabilities, fulfilling the primary goal of providing practical, hands-on training.
+
+    *   **Robust Backend Services:** A secure and scalable backend was developed using ASP.NET Core, with a well-defined API for all client-server communication.
+
+    *   **Effective Data Management:** The use of Entity Framework Core with the Repository and Unit of Work patterns has resulted in a reliable and efficient data access layer.
+
+    *   **Comprehensive Testing Strategy:** A thorough testing plan, encompassing unit, integration, and API tests, was designed and implemented, ensuring the quality and reliability of the final product.
+*   **Potential Future Enhancements**
+
+    While the current version of the platform meets all its core objectives, there are several exciting avenues for future development that could further enhance its value and capabilities. These include:
+
+    *   **User-Created Labs:**
+        *   Allowing trusted users or instructors to create and upload their own labs and challenges. This would greatly expand the content available on the platform and foster a community of contributors.
+
+    *   **Gamification and Leaderboards:**
+        *   Introducing gamification elements such as points, badges, and a competitive leaderboard to increase user engagement and motivation.
+
+    *   **Team-Based and Competitive Modes:**
+        *   Adding support for team-based exercises where multiple users can work together in a shared lab environment. A "Capture the Flag" (CTF) mode could also be developed for competitive events.
+
+    *   **Expanded Vulnerability Categories:**
+        *   Expanding the scope of the platform to include labs for other areas of cybersecurity, such as mobile application security (iOS/Android), IoT device security, and cloud security.
+
+    *   **Advanced User Analytics:**
+        *   Providing users with more detailed analytics on their performance, including time taken to complete labs, common mistakes, and areas for improvement.
+
+    *   **Integration with Other Learning Platforms:**
+        *   Integrating with Learning Management Systems (LMS) or other educational platforms to allow for seamless use in academic or corporate training environments.
+
+    *   **Automated Hint System:**
+        *   Developing an intelligent hint system that can provide users with guidance when they are stuck on a particular lab, without giving away the solution.

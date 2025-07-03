@@ -1,0 +1,429 @@
+/* start variable */
+:root {
+    --main-color: rgb(4, 78, 125);
+    --light-color: rgb(27, 139, 209);
+    --main-padding-top: 100px;
+    --main-padding-bottom: 100px;
+    --main-transition: 0.3s;
+}
+/* end variable */
+
+/* start global rules  */
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Work Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+/* شكل شاشة البداية */
+#splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #fff; /* لون خلفية شاشة البداية */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* فوق كل عناصر الموقع */
+}
+
+/* حركة دوران اللوجو */
+#logo {
+    width: 200px; /* حجم اللوجو */
+    animation: spin 2s linear infinite; /* الحركة */
+}
+
+/* تعريف حركة التدوير */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+#main-content {
+    display: none;
+}
+
+.logostuff {
+    color: rgb(6, 107, 169);
+    font-family: "Caveat", cursive;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;
+    align-items: center;
+    font-size: larger;
+}
+
+
+.shield-container {
+    margin-bottom: 20px;
+}
+
+.shield-image {
+    width: 60px;
+    height: auto;
+    cursor: pointer; /* Makes the image behave like a button */
+    transition: transform 0.3s ease; /* Adds smooth transition effect when changing */
+    vertical-align: middle;
+    padding-top: 15px;
+}
+
+    .shield-image:hover {
+        transform: scale(1.1); /* Slight zoom-in effect on hover */
+    }
+
+/* start landing */
+.landing {
+    min-height: 100vh;
+    position: relative;
+    background-color: rgb(255, 255, 255);
+    background-image: url('https://img.freepik.com/free-vector/digital-white-background-with-binary-code-algorithm-numbers_1017-54561.jpg?t=st=1733344183~exp=1733347783~hmac=ac0dcd4f72935039866dd885bdeecff3a29a5290089318ae475c54497980451f&w=996');
+    background-size: cover;
+    margin-top: 10px;
+}
+
+.overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+.text {
+    position: absolute;
+    padding-left: 20%;
+    padding-top: 70px;
+    padding-bottom: 70px;
+    color: rgb(6, 107, 169);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    background-color: rgba(122, 190, 242, 0.1);
+    border-radius: 30%;
+}
+
+    .text #p1, .text #p2 {
+        font-size: 40px;
+    }
+
+.knowledge-font {
+    color: #B87333;
+    font-size: larger;
+    font-weight: bold;
+    font-style: oblique;
+}
+
+/* .text #p2{
+  font-size: 40px;
+  color: maroon;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+} */
+
+.slogan {
+    position: absolute;
+    font-size: 30px;
+    font-weight: 500;
+    margin-left: 0
+}
+
+.labtop-graph {
+    z-index: 2;
+    position: absolute;
+    right: 0px;
+    width: 800px;
+    top: -60px;
+}
+
+.side-graph {
+    z-index: 2;
+    position: absolute;
+    width: 250px;
+    left: -55px;
+    bottom: 40%;
+}
+
+.go-down {
+    opacity: 100%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 15%;
+    font-size: 30px;
+    font-weight: bold;
+    color: var(--light-color);
+    z-index: 3;
+}
+
+    .go-down:hover {
+        color: var(--main-color);
+    }
+
+    .go-down i {
+        animation: bouncing 1.5s infinite;
+    }
+
+/* start animation arrow down */
+@keyframes bouncing {
+    0%, 10%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+
+    30%, 40%, 60% {
+        transform: translateY(-15%);
+    }
+}
+
+/* end landing */
+
+/* fixing the go down and landing appearance in the mobile and tablet */
+
+/* mobile */
+@media (max-width: 576px) {
+    .go-down {
+        left: 50%;
+        bottom: -20px;
+    }
+
+    .landing {
+        min-height: 70vh;
+    }
+
+    .labtop-graph {
+        opacity: 0%;
+        width: 10px;
+    }
+
+    .overlay {
+        width: auto;
+    }
+
+    .text {
+        width: 100%;
+        padding-left: 10%;
+        font-size: 30px;
+    }
+}
+
+/* tablet */
+@media (min-width: 577px) and (max-width: 991px) {
+    .go-down {
+        left: 51%;
+    }
+
+    .landing {
+        min-height: 70vh;
+    }
+
+    .text {
+        width: 100%;
+        padding-left: 15%;
+        font-size: 35px;
+    }
+
+    .labtop-graph {
+        opacity: 0%;
+        width: 10px;
+    }
+}
+
+/* large screen */
+@media (min-width: 992px) {
+    .go-down {
+        left: 50%;
+        bottom: 190px;
+    }
+
+    .landing {
+        min-height: 100vh;
+    }
+
+    .labtop-graph {
+        opacity: 0;
+        width: 700px;
+    }
+
+    .text {
+        top: 40%;
+    }
+}
+
+@media (min-width: 1300px) {
+    .go-down {
+        left: 50%;
+        bottom: 190px;
+    }
+
+    .landing {
+        min-height: 100vh;
+    }
+
+    .labtop-graph {
+        opacity: 100%;
+        width: 800px;
+        bottom: 17%;
+    }
+
+    .text {
+        top: 40%;
+    }
+}
+
+/* main title of all sections */
+.main-title {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.main-title-headline {
+    color: rgb(4, 78, 125);
+    margin: auto auto;
+    z-index: 1;
+    border: 3px solid #B87333;
+    border-radius: 10px;
+    padding: 10px 30px;
+    width: fit-content;
+    font-size: 30px;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.half-shield-icon {
+    color: #B87333;
+    margin: 0 10px; /* Added margin for better spacing */
+}
+
+
+@keyframes move {
+    50% {
+        border-radius: 5px;
+        border-width: 6px;
+    }
+
+    100% {
+        border-width: 2px;
+    }
+}
+
+
+/* start labs */
+
+.labs {
+    padding-top: var(--main-padding-top);
+    padding-bottom: var(--main-padding-bottom);
+    position: relative;
+}
+
+
+    .labs .container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 40px;
+    }
+
+    .labs .box {
+        box-shadow: 0 2px 15px rgb(0 0 0 / 10%);
+        background-color: white;
+        border-radius: 6px;
+        overflow: hidden;
+        /* transition to control the duration of the hover later */
+        transition: transform var(--main-transition), box-shadow var(--main-transition);
+    }
+
+        .labs .box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 2px 15px rgb(0 0 0 / 20%);
+        }
+
+        .labs .box img {
+            /* to fit with the box, not smaller,not larger */
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .labs .box .content {
+            padding: 20px;
+        }
+
+            .labs .box .content h3 {
+                margin: 0;
+                color: var(--main-color);
+                font-size: medium;
+            }
+
+            .labs .box .content p {
+                margin: 10px 0 0;
+                line-height: 1.5;
+                color: #777;
+            }
+
+        .labs .box .info {
+            padding: 20px;
+            border-top: 1px solid #e6e6e7;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .labs .box .info a {
+                color: var(--main-color);
+                font-weight: bold;
+            }
+
+            .labs .box .info i {
+                color: var(--main-color);
+            }
+
+        .labs .box:hover .info i {
+            animation: moving-arrow 0.6s linear infinite;
+        }
+/* start animation arrow right */
+@keyframes moving-arrow {
+    100% {
+        transform: translateX(10px);
+    }
+}
+/* end animation */
+
+/* start of about us */
+.logo-in-slide {
+    font-family: "Caveat", cursive;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;
+    font-size: larger;
+}
+
+.chat-wrapper.chat-min.chat-open {
+    border: 1px solid transparent !important;
+    border-radius: 20px !important;
+}
+
+button#widgetIcon .df-chat-icon {
+    height: 45px !important;
+    left: 6px !important;
+    opacity: 1 !important;
+    position: absolute !important;
+    top: 6px !important;
+    transition: opacity 0.5s !important;
+    width: 45px !important;
+}

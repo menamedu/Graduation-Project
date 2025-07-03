@@ -1,0 +1,77 @@
+﻿/* -----------------------OVERVIEW---------------------------------- */
+:root {
+    --main-color: rgb(4, 78, 125);
+    --light-color: rgb(27, 139, 209);
+    --main-padding-top: 100px;
+    --main-padding-bottom: 100px;
+    --main-transition: 0.3s;
+    --copper-color: #B87333;
+    --main-background-color: rgb(234, 244, 251);
+}
+
+.copper {
+    color: var(--copper-color);
+}
+
+.bg-copper {
+    background-color: var(--copper-color);
+}
+
+.darkblue {
+    color: var(--main-color);
+}
+
+.bg-darkblue {
+    background-color: var(--main-color);
+}
+
+.lightblue {
+    color: var(--light-color);
+}
+
+.bg-lightblue {
+    background-color: var(--light-color);
+}
+/* .single-pill{
+    width: 90%;
+} */
+
+
+#right-side-of-lab {
+    border-top-right-radius: 48px;
+    border-bottom-right-radius: 48px;
+    border: 1px solid #ebf0f2;
+}
+
+#left-side-of-lab {
+    border-top-left-radius: 48px;
+    border-bottom-left-radius: 48px;
+}
+
+a {
+    text-decoration: none !important;
+    color: black !important;
+}
+/* ------------------------LAB---------------------------------- */
+#accordionExample1, #accordionExample2 {
+    border: 1px solid var(--main-color);
+    border-radius: 7px;
+    text-align: center;
+    margin: 0 10px 10px 0;
+}
+
+#headingOne button div span {
+    font-size: 20px;
+}
+
+.accordion-button {
+    color: var(--main-color) !important;
+}
+
+#collapse1, #collapse2 {
+    color: var(--main-color);
+}
+
+code {
+    color: #B87333 !important;
+}
